@@ -2,7 +2,7 @@
 .PHONY : help build clean shell run stop rm
 
 USERNAME:=ncarlier
-APPNAME:=docker-nginx
+APPNAME:=nginx
 IMAGE:=$(USERNAME)/$(APPNAME)
 
 define docker_run_flags

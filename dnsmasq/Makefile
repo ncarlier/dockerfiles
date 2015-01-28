@@ -2,7 +2,7 @@
 .PHONY : help build clean run stop rm shell
 
 USERNAME:=ncarlier
-APPNAME:=docker-dns
+APPNAME:=dnsmasq
 IMAGE:=$(USERNAME)/$(APPNAME)
 
 define docker_run_flags

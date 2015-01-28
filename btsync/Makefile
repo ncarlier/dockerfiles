@@ -2,7 +2,7 @@
 .PHONY : help build clean shell run stop rm
 
 USERNAME:=ncarlier
-APPNAME:=coreos-btsync
+APPNAME:=btsync
 IMAGE:=$(USERNAME)/$(APPNAME)
 
 define docker_run_flags

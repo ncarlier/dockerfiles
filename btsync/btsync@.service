@@ -5,7 +5,7 @@ Requires=docker.service
 
 [Service]
 EnvironmentFile=/etc/environment
-ExecStartPre=/usr/bin/docker pull ncarlier/coreos-btsync:latest
+ExecStartPre=/usr/bin/docker pull ncarlier/btsync:latest
 ExecStartPre=-/usr/bin/bash -c "sudo mkdir /data"
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
@@ -15,7 +15,7 @@ ExecStart=/usr/bin/docker run --rm --name %p \
     --net=host \
     -p 55555:55555 \
     --volume /data:/data \
-    ncarlier/coreos-btsync
+    ncarlier/btsync
 ExecStop=/usr/bin/docker stop %p
 
 [X-Fleet]

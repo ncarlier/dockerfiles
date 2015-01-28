@@ -2,7 +2,7 @@
 .PHONY : build clean run stop rm shell
 
 USERNAME:=ncarlier
-APPNAME:=docker-jenkins
+APPNAME:=jenkins
 IMAGE:=$(USERNAME)/$(APPNAME)
 
 define docker_run_flags
