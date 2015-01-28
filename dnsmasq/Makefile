@@ -1,5 +1,5 @@
 .SILENT :
-.PHONY : help build clean run stop rm shell
+.PHONY : help build clean start stop rm logs shell
 
 USERNAME:=ncarlier
 APPNAME:=dnsmasq
@@ -37,9 +37,9 @@ clean: stop rm
 	echo "Removing $(IMAGE) docker image..."
 	sudo docker rmi $(IMAGE)
 
-## Run the container
-run:
-	echo "Running $(IMAGE) docker image..."
+## Start the container
+start:
+	echo "Starting $(IMAGE) docker image..."
 	sudo docker run -d $(docker_run_flags) --name $(APPNAME) $(IMAGE)
 
 ## Stop the container
@@ -51,6 +51,11 @@ stop:
 rm:
 	echo "Deleting container $(APPNAME) ..."
 	-sudo docker rm $(APPNAME)
+
+## Show container logs
+logs:
+	echo "Logs of the $(APPNAME) container..."
+	sudo docker logs -f $(APPNAME)
 
 ## Run the container with shell access
 shell:

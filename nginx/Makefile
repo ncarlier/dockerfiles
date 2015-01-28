@@ -1,5 +1,5 @@
 .SILENT :
-.PHONY : help build clean shell run stop rm
+.PHONY : help build clean shell start stop rm logs
 
 USERNAME:=ncarlier
 APPNAME:=nginx
@@ -36,9 +36,9 @@ clean: stop rm
 	echo "Removing $(IMAGE) docker image..."
 	sudo docker rmi $(IMAGE)
 
-## Run the container
-run:
-	echo "Running $(IMAGE) docker image..."
+## Start the container
+start:
+	echo "Starting $(IMAGE) docker image..."
 	sudo docker run -d $(docker_run_flags) --name $(APPNAME) $(IMAGE)
 
 ## Stop the container
@@ -55,4 +55,9 @@ rm:
 shell:
 	echo "Running $(IMAGE) docker image with shell access..."
 	sudo docker run --rm -it $(docker_run_flags) --entrypoint="/bin/bash" $(IMAGE) -c /bin/bash
+
+## Show container logs
+logs:
+	echo "Logs of the $(APPNAME) container..."
+	sudo docker logs -f $(APPNAME)
 

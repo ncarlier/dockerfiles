@@ -1,5 +1,5 @@
 .SILENT :
-.PHONY : build clean run stop rm shell
+.PHONY : build clean start stop rm logs shell
 
 USERNAME:=ncarlier
 APPNAME:=jenkins
@@ -21,7 +21,7 @@ clean:
 	echo "Removing $(IMAGE) docker image..."
 	sudo docker rmi $(IMAGE)
 
-run:
+start:
 	echo "Running $(IMAGE) docker image..."
 	sudo docker run -d $(docker_run_flags) --name $(APPNAME) $(IMAGE)
 
@@ -33,6 +33,9 @@ rm:
 	echo "Deleting container $(APPNAME) ..."
 	-sudo docker rm $(APPNAME)
 
+logs:
+	echo "Logs of the $(APPNAME) container..."
+	sudo docker logs -f $(APPNAME)
 
 shell:
 	echo "Running $(IMAGE) docker image with shell access..."

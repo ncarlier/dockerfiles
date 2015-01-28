@@ -1,5 +1,5 @@
 .SILENT :
-.PHONY : build clean shell run stop rm
+.PHONY : build clean shell start stop rm logs
 
 USERNAME:=ncarlier
 APPNAME:=kibana
@@ -21,8 +21,8 @@ clean: stop rm
 	echo "Removing $(IMAGE) docker image..."
 	sudo docker rmi $(IMAGE)
 
-run:
-	echo "Running $(IMAGE) docker image..."
+start:
+	echo "Starting $(IMAGE) docker image..."
 	sudo docker run -d $(docker_run_flags) --name $(APPNAME) $(IMAGE)
 
 stop:
@@ -32,6 +32,10 @@ stop:
 rm:
 	echo "Deleting container $(APPNAME) ..."
 	-sudo docker rm $(APPNAME)
+
+logs:
+	echo "Logs of the $(APPNAME) container..."
+	sudo docker logs -f $(APPNAME)
 
 shell:
 	echo "Running $(IMAGE) docker image with shell access..."
