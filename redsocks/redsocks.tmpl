@@ -1,0 +1,27 @@
+base {
+  log_debug = off;
+  log_info = on;
+  log = "stderr";
+  daemon = off;
+  user = redsocks;
+  group = redsocks;
+  redirector = iptables;
+}
+
+redsocks {
+  local_ip = 0.0.0.0;
+  local_port = 12345;
+
+  type = http-relay;
+  ip = ${proxy_ip};
+  port = ${proxy_port};
+}
+
+redsocks {
+  local_ip = 0.0.0.0;
+  local_port = 12346;
+
+  type = http-connect;
+  ip = ${proxy_ip};
+  port = ${proxy_port};
+}
