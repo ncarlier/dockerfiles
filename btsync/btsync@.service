@@ -1,0 +1,22 @@
+[Unit]
+Description=Bittorent Sync Service
+After=docker.service
+Requires=docker.service
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStartPre=/usr/bin/docker pull ncarlier/coreos-btsync:latest
+ExecStartPre=-/usr/bin/bash -c "sudo mkdir /data"
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --rm --name %p \
+    -e ETCD_HOST=${COREOS_PRIVATE_IPV4}:4001 \
+    -e SERVICE_PORT=55555 \
+    --net=host \
+    -p 55555:55555 \
+    --volume /data:/data \
+    ncarlier/coreos-btsync
+ExecStop=/usr/bin/docker stop %p
+
+[X-Fleet]
+X-Conflicts=%p@*.service

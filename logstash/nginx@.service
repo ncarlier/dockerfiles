@@ -1,0 +1,18 @@
+[Unit]
+Description=NGINX Reverse Proxy
+After=docker.service
+Requires=docker.service elasticsearch@*.service
+
+[Service]
+ExecStartPre=/usr/bin/docker pull ncarlier/docker-nginx:latest
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --rm --name %p \
+    --volume /var/run/docker.sock:/tmp/docker.sock \
+    --link elasticsearch:elasticsearch \
+    -p 80:80 \
+    ncarlier/docker-nginx
+ExecStop=/usr/bin/docker stop %p
+
+[X-Fleet]
+X-Conflicts=%p@*.service

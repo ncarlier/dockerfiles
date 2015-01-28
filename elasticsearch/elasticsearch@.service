@@ -1,0 +1,17 @@
+[Unit]
+Description=Elasticsearch
+After=docker.service
+Requires=docker.service mongodb@*.service
+
+[Service]
+ExecStartPre=/usr/bin/docker pull ncarlier/%p:latest
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --rm --name %p -h %p \
+    --volume /media/data/%p:/var/opt/%p \
+    --link mongodb:mongodb \
+    ncarlier/%p
+ExecStop=/usr/bin/docker stop %p
+
+[X-Fleet]
+X-Conflicts=%p@*.service

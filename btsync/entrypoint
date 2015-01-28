@@ -1,0 +1,15 @@
+#!/bin/bash
+
+BTSYNC_SECRET=$(etcdctl --peers $ETCD_HOST get /configurations/btsync/secret)
+RET_CODE=$?
+if [ $RET_CODE == 4 ]; then
+    echo "Btsync secret not found. Generate a new one..."
+    BTSYNC_SECRET=$(btsync --generate-secret)
+    etcdctl --peers $ETCD_HOST set /configurations/btsync/secret $BTSYNC_SECRET
+elif [ $RET_CODE != 0 ]; then
+    echo "Error, unable to get etcd key: /configurations/btsync/secret"
+    exit 1
+fi
+
+echo "Starting supervisord..."
+supervisord -n

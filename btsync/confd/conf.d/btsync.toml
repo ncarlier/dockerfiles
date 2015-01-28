@@ -1,0 +1,11 @@
+[template]
+keys = [
+  "services",
+  "configurations"
+]
+
+src = "btsync.tmpl"
+dest = "/etc/btsync.cfg"
+
+reload_cmd = "supervisorctl restart btsync"
+

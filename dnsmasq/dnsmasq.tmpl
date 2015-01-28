@@ -1,0 +1,7 @@
+{{ range $host, $containers := groupByMulti $ "Env.DOMAIN_NAME" "," }}
+{{ range $index, $container := $containers }}
+  {{ with $address := index $container.Addresses 0 }}
+address=/{{$host}}/{{$container.Gateway}}
+  {{ end }}
+{{ end }}
+{{ end }}
