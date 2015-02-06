@@ -8,7 +8,7 @@ ExecStartPre=/usr/bin/docker pull ncarlier/%p:latest
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --rm --name %p -h %p \
-    --env-file /media/data/%p/env.conf \
+    -e DOMAIN_NAME=kibana.localnet \
     --link elasticsearch:elasticsearch \
     -P \
     ncarlier/%p
