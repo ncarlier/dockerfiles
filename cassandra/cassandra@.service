@@ -1,0 +1,22 @@
+[Unit]
+Description=Cassandra server node
+After=docker.service
+Requires=docker.service
+
+[Service]
+EnvironmentFile=/etc/environment
+ExecStartPre=/usr/bin/docker pull ncarlier/%p
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/bin/sh -c '/usr/bin/docker run --rm --name %p \
+    --net=host \
+    -e CASSANDRA_IP=${COREOS_PRIVATE_IPV4} \
+    -e CASSANDRA_CLUSTERNAME=$(/usr/bin/etcdctl get /configurations/cassandra/clustername) \
+    -e CASSANDRA_TOKEN=$(/usr/bin/etcdctl get /configurations/cassandra/node%i/token) \
+    -e CASSANDRA_SEEDS=$(/usr/bin/etcdctl get /configurations/cassandra/seeds) \
+    -p 7199:7199 -p 7000:7000 -p 9160:9160 -p 9042:9042 -p 8012:8012 -p 61611:61621 \
+    ncarlier/%p'
+ExecStop=/usr/bin/docker stop %p
+
+[X-Fleet]
+X-Conflicts=%p@*.service
