@@ -9,7 +9,7 @@ Docker image used to handle corporate http proxy requests.
 Start the container like this:
 
 ```
-docker run --privileged=true --net=host -d ncarlier/docker-redsocks 1.2.3.4 3128
+docker run --privileged=true --net=host -d ncarlier/redsocks 1.2.3.4 3128
 ```
 
 Replace the IP and the port by those of your proxy.
