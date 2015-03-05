@@ -3,6 +3,10 @@
 
 IP:=`sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(APPNAME)`
 
+VOLUME_BASE:=~/var
+
+FLAGS:=
+
 all: build
 
 ## This help screen
@@ -20,12 +24,12 @@ help:
 
 ## Build the volume image
 volume:
-	echo "Building $(APPNAME) volumes..."
-	sudo docker run -v ~/var/$(APPNAME):/var/lib/$(APPNAME) --name $(APPNAME)_volumes busybox true
+	echo "Building $(APPNAME) volumes (base: $(VOLUME_BASE))..."
+	sudo docker run -v $(VOLUME_BASE)/$(APPNAME):/var/lib/$(APPNAME) --name $(APPNAME)_volumes busybox true
 
 ## Mount volume
 mount:
-	$(eval docker_run_flags += --volumes-from $(APPNAME)_volumes)
+	$(eval FLAGS += --volumes-from $(APPNAME)_volumes)
 	echo "Using volumes from $(APPNAME)_volumes"
 
 ## Build the image
@@ -46,7 +50,7 @@ cleanup:
 ## Start the container
 start:
 	echo "Starting $(IMAGE) docker image..."
-	sudo docker run -d -h $(APPNAME) $(docker_run_flags) --name $(APPNAME) $(IMAGE)
+	sudo docker run -d -h $(APPNAME) $(FLAGS) $(docker_run_flags) --name $(APPNAME) $(IMAGE)
 
 ## Stop the container
 stop:
@@ -61,7 +65,7 @@ rm:
 ## Run the container with shell access
 shell:
 	echo "Running $(IMAGE) docker image with shell access..."
-	sudo docker run --rm -it -h $(APPNAME) --entrypoint="/bin/bash" $(IMAGE) -c /bin/bash
+	sudo docker run --rm -it -h $(APPNAME) $(FLAGS) --entrypoint="/bin/bash" $(IMAGE) -c /bin/bash
 
 ## Show container logs
 logs:
