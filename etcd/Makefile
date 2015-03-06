@@ -9,10 +9,7 @@ define docker_run_flags
 -p 7001:7001
 endef
 
-include $(PWD)/../common/_Makefile
+RUN_CMD=-name=test -addr=172.17.42.1:4001
 
-## Start the container
-start:
-	echo "Starting $(IMAGE) docker image..."
-	sudo docker run -d -h $(APPNAME) $(docker_run_flags) --name $(APPNAME) $(IMAGE) -name=test -addr=172.17.42.1:4001
+include $(PWD)/../common/_Makefile
 
