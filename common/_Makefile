@@ -17,7 +17,7 @@ SHELL_CMD?=-c /bin/bash
 # Volume base directory on the host
 VOLUME_HOST_BASE?=~/var
 # Volume base directory into the container
-VOLUME_CONTAINER_BASE?=/var/lib
+VOLUME_CONTAINER_BASE?=/var/opt
 # Volume flags
 VOLUME_FLAGS:=
 
