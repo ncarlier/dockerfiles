@@ -18,9 +18,6 @@ RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 RUN sed -i 's/# server_names_hash_bucket/server_names_hash_bucket/g' /etc/nginx/nginx.conf
 ADD nginx.tmpl /etc/nginx/nginx.tmpl
 
-# Create html dir
-RUN mkdir /var/www/html
-
 # Setup supervisord
 ADD supervisord.conf /etc/supervisor/conf.d/docker-nginx.conf
 
