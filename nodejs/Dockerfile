@@ -9,14 +9,17 @@ MAINTAINER Nicolas Carlier <https://github.com/ncarlier>
 ENV DEBIAN_FRONTEND noninteractive
 
 # Install packages
-RUN apt-get update && apt-get install -y nodejs npm git devscripts debhelper
+RUN apt-get update && apt-get install -y nodejs npm git
 
 # Fix nodejs exec name
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
-# Install grunt and bower
+# Set registry
 RUN npm config set registry http://registry.npmjs.org/
-RUN npm install -g grunt-cli bower node-inspector
 
+# Install debugger
+RUN npm install -g node-inspector
+
+# Create node user
 RUN adduser --disabled-password node
 

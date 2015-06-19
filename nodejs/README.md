@@ -2,9 +2,5 @@
 
 NodeJS Docker image based on debian.
 
-Also contains:
+Also contains node inspector.
 
-* Grunt
-* Bower
-* Node inspector
-* And dev scripts for building debian packages
