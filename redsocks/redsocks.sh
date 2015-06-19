@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if test $# -eq 2
 then
@@ -18,16 +18,37 @@ sed -e "s|\${proxy_ip}|${proxy_ip}|" \
 echo "Generated configuration:"
 cat /tmp/redsocks.conf
 
-trap trapper HUP INT QUIT KILL TERM
-
-trapper() {
-  echo "Signal catched. Disable iptables rules..."
-  exec /usr/local/bin/redsocks-fw.sh stop
-}
-
 echo "Activating iptables rules..."
 /usr/local/bin/redsocks-fw.sh start
 
-echo "Starting redsocks..."
-exec /usr/sbin/redsocks -c /tmp/redsocks.conf
+pid=0
 
+# SIGUSR1 handler
+usr_handler() {
+  echo "usr_handler"
+}
+
+# SIGTERM-handler
+term_handler() {
+    if [ $pid -ne 0 ]; then
+        echo "Term signal catched. Shutdown redsocks and disable iptables rules..."
+        kill -SIGTERM "$pid"
+        wait "$pid"
+        /usr/local/bin/redsocks-fw.sh stop
+    fi
+    exit 143; # 128 + 15 -- SIGTERM
+}
+
+# setup handlers
+trap 'kill ${!}; usr_handler' SIGUSR1
+trap 'kill ${!}; term_handler' SIGTERM
+
+echo "Starting redsocks..."
+/usr/sbin/redsocks -c /tmp/redsocks.conf &
+pid="$!"
+
+# wait indefinetely
+while true
+do
+    tail -f /dev/null & wait ${!}
+done
