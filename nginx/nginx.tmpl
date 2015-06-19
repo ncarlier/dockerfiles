@@ -1,10 +1,16 @@
 server {
     listen 80 default_server;
-    server_name _; # This is just an invalid value which will never trigger on a real hostname.
-    return 503;
+    server_name www.*;
     error_log /proc/self/fd/2;
     access_log /proc/self/fd/1 combined;
+    root /var/www/html;
+    index index.html;
+    error_page   500 502 503 504  /50x.html;
+    location = /50x.html {
+        root /var/www/nginx-default;
+    }
 }
+
 
 {{ range $host, $containers := groupByMulti $ "Env.DOMAIN_NAME" "," }}
 upstream {{ $host }} {
