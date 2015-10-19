@@ -2,7 +2,9 @@
 
 ## Description
 
-Docker image used to handle corporate http proxy requests.
+This docker image allows you to use docker on a host without being bored by your corporate proxy.
+
+You have just to run this container and all your other containers will be able to access directly to internet (without any proxy configuration).
 
 ## Usage
 
