@@ -5,13 +5,13 @@ Requires=docker.service
 
 [Service]
 TimeoutStdartSec=0
-ExecStartPre=/usr/bin/docker pull ncarlier/%p:latest
+ExecStartPre=/usr/bin/docker pull %p:latest
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --rm --name %p -h %p \
     -e SERVICE_PORT=6379 \
     -P \
-    ncarlier/%p
+    %p
 ExecStop=/usr/bin/docker stop %p
 
 [X-Fleet]

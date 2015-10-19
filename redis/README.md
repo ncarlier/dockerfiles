@@ -2,7 +2,7 @@
 
 ## Description
 
-Redis Docker image based on debian.
+Redis Docker image.
 
 ## Usage
 
@@ -11,7 +11,7 @@ Redis Docker image based on debian.
 Start the container:
 
 ```
-docker run -d -P -e SERVICE_PORT=6379 --name redis ncarlier/redis
+docker run -d -P -e SERVICE_PORT=6379 --name redis redis
 ```
 
 ### On CoreOS

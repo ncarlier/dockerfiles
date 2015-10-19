@@ -1,9 +1,9 @@
 .SILENT :
 .PHONY : client dump
 
-USERNAME:=ncarlier
 APPNAME:=redis
-IMAGE:=$(USERNAME)/$(APPNAME)
+VERSION:=2
+IMAGE:=$(APPNAME):$(VERSION)
 
 DATE:=`date +%Y-%m-%d`
 
