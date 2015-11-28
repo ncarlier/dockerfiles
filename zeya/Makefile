@@ -1,11 +1,8 @@
 .SILENT :
-.PHONY :
 
-USERNAME:=ncarlier
 APPNAME:=zeya
-IMAGE:=$(USERNAME)/$(APPNAME)
 
-define docker_run_flags
+define RUN_CUSTOM_FLAGS
 -p 8000:8000
 endef
 

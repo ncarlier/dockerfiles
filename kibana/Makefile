@@ -1,10 +1,8 @@
 .SILENT :
 
-USERNAME:=ncarlier
 APPNAME:=kibana
-IMAGE:=$(USERNAME)/$(APPNAME)
 
-define docker_run_flags
+define RUN_CUSTOM_FLAGS
 -e DOMAIN_NAME=kibana.localnet \
 --link elasticsearch:elasticsearch \
 -P

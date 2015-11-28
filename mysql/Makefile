@@ -2,23 +2,24 @@
 
 USERNAME:=tutum
 APPNAME:=mysql
-IMAGE:=$(USERNAME)/$(APPNAME)
 
 DATE:=`date +%Y-%m-%d`
 
 MYSQL_PASS:=admin
 
-define docker_run_flags
+define RUN_CUSTOM_FLAGS
 -p 3306:3306 \
 -e MYSQL_PASS=$(MYSQL_PASS)
 endef
+
+SHELL_CUSTOM_FLAGS=-P
 
 include $(PWD)/../common/_Makefile
 
 ## Run the container in client mode
 client:
 	echo "Running client of container $(APPNAME) with IP=$(IP)..."
-	sudo docker run --rm \
+	$(DOCKER) run --rm \
 		-it \
 		--entrypoint="mysql" \
 		$(IMAGE) \
@@ -30,7 +31,7 @@ ifndef DB_NAME
 	$(error DB_NAME is undefined)
 else
 	echo "Dumping container $(APPNAME) database: $(DB_NAME)..."
-	sudo docker run --rm \
+	$(DOCKER) run --rm \
 		--volumes-from $(APPNAME)_volumes \
 		--entrypoint='bash' \
 		$(IMAGE) \
@@ -47,7 +48,7 @@ else ifndef DB_NAME
 	$(error DB_NAME is undefined)
 else
 	echo "Restoring container $(APPNAME) data from backup $(BACKUP_NAME)..."
-	sudo docker run --rm \
+	$(DOCKER) run --rm \
 		--volumes-from $(APPNAME)_volumes \
 		--entrypoint='bash' \
 		$(IMAGE) \

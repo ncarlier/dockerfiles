@@ -1,10 +1,8 @@
 .SILENT :
 
-USERNAME:=ncarlier
 APPNAME:=redsocks
-IMAGE:=$(USERNAME)/$(APPNAME)
 
-define docker_run_flags
+define RUN_CUSTOM_FLAGS
 --privileged=true \
 --net=host
 endef

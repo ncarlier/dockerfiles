@@ -1,5 +1,6 @@
 .SILENT :
 
-APPNAME:=nodejs
+APPNAME:=gatling
 
 include $(PWD)/../common/_Makefile
+

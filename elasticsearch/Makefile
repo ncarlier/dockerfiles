@@ -1,10 +1,8 @@
 .SILENT :
 
-USERNAME:=ncarlier
 APPNAME:=elasticsearch
-IMAGE:=$(USERNAME)/$(APPNAME)
 
-define docker_run_flags
+define RUN_CUSTOM_FLAGS
 --link mongodb:mongodb
 endef
 

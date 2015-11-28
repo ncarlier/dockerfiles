@@ -2,9 +2,8 @@
 
 USERNAME:=grafana
 APPNAME:=grafana
-IMAGE:=$(USERNAME)/$(APPNAME)
 
-define docker_run_flags
+define RUN_CUSTOM_FLAGS
 -e DOMAIN_NAME=grafana.localnet \
 --link influxdb:influxdb \
 -P

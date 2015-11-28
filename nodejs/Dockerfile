@@ -8,18 +8,28 @@ MAINTAINER Nicolas Carlier <https://github.com/ncarlier>
 
 ENV DEBIAN_FRONTEND noninteractive
 
-# Install packages
-RUN apt-get update && apt-get install -y nodejs npm git
+# Add nodejs repository and install node
+RUN apt-get update && apt-get install -y wget build-essential && \
+    wget --no-check-certificate -O - https://deb.nodesource.com/setup_5.x | bash && \
+    apt-get install -y nodejs && \
+    apt-get clean && \
+    npm install -g node-inspector
 
-# Fix nodejs exec name
-RUN ln -s /usr/bin/nodejs /usr/bin/node
+# Create app directories
+RUN mkdir -p /usr/src/app
 
-# Set registry
-RUN npm config set registry http://registry.npmjs.org/
+# Setup working directory
+WORKDIR /usr/src/app
 
-# Install debugger
-RUN npm install -g node-inspector
+# Add package definition
+ONBUILD COPY package.json /usr/src/app/
 
-# Create node user
-RUN adduser --disabled-password node
+# Install
+ONBUILD RUN npm install
 
+# Copy sources
+ONBUILD COPY . /usr/src/app
+
+ENTRYPOINT ["/usr/bin/npm"]
+
+CMD ["start"]

@@ -2,9 +2,8 @@
 
 USERNAME:=microbox
 APPNAME:=etcd
-IMAGE:=$(USERNAME)/$(APPNAME)
 
-define docker_run_flags
+define RUN_CUSTOM_FLAGS
 -p 4001:4001 \
 -p 7001:7001
 endef

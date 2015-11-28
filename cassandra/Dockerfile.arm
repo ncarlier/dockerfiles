@@ -1,0 +1,48 @@
+# Cassandra docker image.
+#
+# VERSION 2.2
+
+FROM armbuild/debian:jessie
+
+MAINTAINER Nicolas Carlier <https://github.com/ncarlier>
+
+ENV DEBIAN_FRONTEND noninteractive
+
+# Add java package repository
+COPY etc/apt/sources.list.d/webupd8team-java.list /etc/apt/sources.list.d/webupd8team-java.list
+
+# Install packages
+RUN echo 'oracle-java8-installer shared/accepted-oracle-license-v1-1 select true' | /usr/bin/debconf-set-selections && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C2518248EEA14886 && \
+    apt-get update && apt-get install -y oracle-java8-installer curl python
+
+# Install Cassandra
+ENV CASSANDRA_URL http://apache.crihan.fr/dist/cassandra/2.2.3/apache-cassandra-2.2.3-bin.tar.gz
+ENV CASSANDRA_HOME /opt/cassandra
+ENV CASSANDRA_CONFIG /opt/cassandra/conf
+RUN curl -s -o /tmp/cassandra.tgz $CASSANDRA_URL && \
+	tar -xzf /tmp/cassandra.tgz --strip-components=1 -C $CASSANDRA_HOME
+    rm /tmp/cassandra.tgz
+
+# Add entrypoint script
+COPY bin/docker-entrypoint.sh /docker-entrypoint.sh
+
+# Define java home
+ENV JAVA_HOME=/usr/lib/jvm/java-8-oracle
+
+# Add cassandra binaries to the path
+ENV PATH=$PATH:/opt/cassandra/bin
+
+# Add volume
+VOLUME /opt/cassandra/data
+
+# Expose ports
+# 7000: intra-node communication
+# 7001: TLS intra-node communication
+# 7199: JMX
+# 9042: CQL
+# 9160: thrift service
+EXPOSE 7000 7001 7199 9042 9160
+
+ENTRYPOINT ["/docker-entrypoint.sh"]
+CMD ["cassandra", "-f"]
