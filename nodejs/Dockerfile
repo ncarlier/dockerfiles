@@ -12,8 +12,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y wget build-essential && \
     wget --no-check-certificate -O - https://deb.nodesource.com/setup_5.x | bash && \
     apt-get install -y nodejs && \
-    apt-get clean && \
-    npm install -g node-inspector
+    apt-get clean
 
 # Create app directories
 RUN mkdir -p /usr/src/app
