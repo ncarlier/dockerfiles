@@ -1,5 +1,8 @@
 # Elasticsearch Docker image
 
+[![Image size](https://img.shields.io/imagelayers/image-size/ncarlier/elasticsearch/latest.svg)](https://hub.docker.com/r/ncarlier/elasticsearch/)
+[![Docker pulls](https://img.shields.io/docker/pulls/ncarlier/elasticsearch.svg)](https://hub.docker.com/r/ncarlier/elasticsearch/)
+
 ## Description
 
 Elasticsearch Docker image based on debian.

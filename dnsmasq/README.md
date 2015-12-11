@@ -1,5 +1,8 @@
 # DNS Docker image
 
+[![Image size](https://img.shields.io/imagelayers/image-size/ncarlier/dnsmasq/latest.svg)](https://hub.docker.com/r/ncarlier/dnsmasq/)
+[![Docker pulls](https://img.shields.io/docker/pulls/ncarlier/dnsmasq.svg)](https://hub.docker.com/r/ncarlier/dnsmasq/)
+
 ## Description
 
 Simple dynamic DNS server for docker.

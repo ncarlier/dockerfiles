@@ -1,5 +1,8 @@
 # Redsocks Docker image
 
+[![Image size](https://img.shields.io/imagelayers/image-size/ncarlier/redsocks/latest.svg)](https://hub.docker.com/r/ncarlier/redsocks/)
+[![Docker pulls](https://img.shields.io/docker/pulls/ncarlier/redsocks.svg)](https://hub.docker.com/r/ncarlier/redsocks/)
+
 ## Description
 
 This docker image allows you to use docker on a host without being bored by your corporate proxy.

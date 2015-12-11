@@ -1,5 +1,8 @@
 # Kibana Docker image
 
+[![Image size](https://img.shields.io/imagelayers/image-size/ncarlier/kibana/latest.svg)](https://hub.docker.com/r/ncarlier/kibana/)
+[![Docker pulls](https://img.shields.io/docker/pulls/ncarlier/kibana.svg)](https://hub.docker.com/r/ncarlier/kibana/)
+
 ## Description
 
 Kibana Docker image based on debian.

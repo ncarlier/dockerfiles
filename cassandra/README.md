@@ -1,5 +1,8 @@
 # Cassandra Docker image
 
+[![Image size](https://img.shields.io/imagelayers/image-size/ncarlier/cassandra/latest.svg)](https://hub.docker.com/r/ncarlier/cassandra/)
+[![Docker pulls](https://img.shields.io/docker/pulls/ncarlier/cassandra.svg)](https://hub.docker.com/r/ncarlier/cassandra/)
+
 ## Description
 
 Cassandra Docker image based on Spotify image.

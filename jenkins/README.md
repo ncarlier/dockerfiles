@@ -1,5 +1,8 @@
 # Jenkins Docker image
 
+[![Image size](https://img.shields.io/imagelayers/image-size/ncarlier/jenkins/latest.svg)](https://hub.docker.com/r/ncarlier/jenkins/)
+[![Docker pulls](https://img.shields.io/docker/pulls/ncarlier/jenkins.svg)](https://hub.docker.com/r/ncarlier/jenkins/)
+
 ## Description
 
 Simple Jenkins continuous integration and delivery server using Docker.
