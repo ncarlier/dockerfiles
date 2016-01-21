@@ -2,15 +2,14 @@
 #
 # VERSION 0.1
 
-FROM node:5
+FROM node:5-onbuild
 
 MAINTAINER Nicolas Carlier <https://github.com/ncarlier>
-
-# Install package
-RUN npm install -g node-red
 
 # Ports
 EXPOSE 1880
 
-ENTRYPOINT ["/usr/local/bin/node-red"]
+ENTRYPOINT ["/usr/local/bin/npm"]
+
+CMD ["start"]
 

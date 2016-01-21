@@ -10,7 +10,7 @@ VOLUME_IMAGE?=busybox
 UNAME_M := $(shell uname -m)
 ifeq ($(UNAME_M),armv7l)
 	DOCKERFILE=Dockerfile.arm
-	APPNAME=$(APPNAME)-arm
+	APPNAME:=$(APPNAME)-arm
 	BASEIMAGE=armbuild/debian:jessie
 	VOLUME_IMAGE=armbuild/busybox
 endif

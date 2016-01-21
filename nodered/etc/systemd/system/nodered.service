@@ -1,0 +1,15 @@
+[Unit]
+Description=NodeRed service
+After=docker.service
+Requires=docker.service
+
+[Service]
+ExecStartPre=-/usr/bin/docker kill %p
+ExecStartPre=-/usr/bin/docker rm %p
+ExecStart=/usr/bin/docker run --rm --name %p \
+    --env-file /etc/environment \
+    --env-file /etc/default/%p \
+    -p 127.0.0.1:1880:1880 \
+    ncarlier/nodered
+ExecStop=/usr/bin/docker stop %p
+
