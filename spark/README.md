@@ -5,7 +5,7 @@
 
 ## Description
 
-Sparki Docker image based on debian.
+Spark Docker image based on debian.
 
 ## Usage
 

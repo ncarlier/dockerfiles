@@ -1,23 +1,15 @@
-# Redis Docker image
+# Zeya Docker image
 
 ## Description
 
-Redis Docker image based on debian.
+Zeya Docker image based on debian.
 
 ## Usage
-
-### On a Docker host
 
 Start the container:
 
 ```
-docker run -d -P -e SERVICE_PORT=6379 --name redis ncarlier/redis
-```
-
-### On CoreOS
-
-```
-fleetctl start redis@master.service
+docker run -d -P --name zeya ncarlier/zeya
 ```
 
 ## Build
