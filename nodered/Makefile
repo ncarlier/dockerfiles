@@ -11,7 +11,7 @@ include $(PWD)/../common/_Makefile
 ## Install as a service (needs root privileges)
 install: build
 	echo "Install as a service..."
-	cp etc/systemd/system/* /etc/systemd/system/
+	cp etc/systemd/system/$(APPNAME).service /etc/systemd/system/
 	cp etc/default/$(env).env /etc/default/$(APPNAME)
 	systemctl daemon-reload
 	systemctl restart $(APPNAME)

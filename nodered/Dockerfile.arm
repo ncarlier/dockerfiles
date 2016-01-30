@@ -9,7 +9,7 @@ MAINTAINER Nicolas Carlier <https://github.com/ncarlier>
 # Ports
 EXPOSE 1880
 
-ENTRYPOINT ["/usr/local/bin/npm"]
+ENTRYPOINT ["/usr/bin/npm"]
 
 CMD ["start"]
 
