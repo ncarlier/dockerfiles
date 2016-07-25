@@ -1,6 +1,7 @@
 .SILENT :
 .PHONY : client dump
 
+USERNAME:=library
 APPNAME:=redis
 VERSION:=2
 
