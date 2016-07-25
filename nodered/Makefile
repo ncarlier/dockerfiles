@@ -5,6 +5,8 @@ env?=staging
 
 ENV_FLAGS?=--env-file="./etc/default/$(env).env"
 RUN_CUSTOM_FLAGS?=-p 1880:1880 $(ENV_FLAGS)
+BASEIMAGE?=node:5
+BASEIMAGE_?=node:5
 
 include $(PWD)/../common/_Makefile
 
