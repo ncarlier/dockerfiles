@@ -30,3 +30,11 @@ dump:
 	echo "Dumping container $(APPNAME) data..."
 	$(DOCKER) cp $(APPNAME):/var/lib/redis/dump.rdb ./dump.$DATE.rdb
 
+## Install as a service (needs root privileges)
+install: build
+	echo "Install as a service..."
+	cp etc/systemd/system/$(APPNAME).service /etc/systemd/system/
+	systemctl daemon-reload
+	systemctl restart $(APPNAME)
+	$(MAKE) cleanup
+
