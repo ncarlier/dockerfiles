@@ -1,47 +1,56 @@
 .SILENT :
-.PHONY : help volume mount build clean cleanup start stop rm shell logs
+.PHONY : help network volume mount update build clean cleanup start stop rm shell logs push pull tag
 
 # Docker configuartion regarding the system architecture
 DOCKER=docker
 DOCKERFILE=Dockerfile
 BASEIMAGE?=debian:jessie
-BASEIMAGE_?=debian:jessie
 VOLUME_IMAGE?=busybox
 UNAME_M := $(shell uname -m)
 ifeq ($(UNAME_M),armv7l)
 	DOCKERFILE=Dockerfile.arm
 	APPNAME:=$(APPNAME)-arm
-	BASEIMAGE:=armhfbuild/$(BASEIMAGE)
+	ARM_BASEIMAGE:=armhfbuild/$(BASEIMAGE)
 	VOLUME_IMAGE=armbuild/busybox
 endif
 
+#Network name
+NETWORK?=keeper-vlan
+
 # Get IP of the running container
-IP:=`sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' $(APPNAME)`
+IP:=`$(DOCKER) inspect --format '{{ .NetworkSettings.IPAddress }}' $(APPNAME)`
+
+# Default registry
+REGISTRY?=
+
+# Default version
+VERSION?=latest
 
 # Default username
 USERNAME?=ncarlier
 
 # Default image name
-IMAGE:=$(USERNAME)/$(APPNAME)
+IMAGE?=$(REGISTRY)$(USERNAME)/$(APPNAME):$(VERSION)
 
 # Custom flags
-RUN_CUSTOM_FLAGS?=-P
+RUN_CUSTOM_FLAGS?=
 # Default Docker run flags
 RUN_FLAGS?=-d -h $(APPNAME) --name $(APPNAME) $(RUN_CUSTOM_FLAGS)
 # Default Docker run command
 RUN_CMD?=
 
 # Custom flags
+SHELL?=/bin/bash
 SHELL_CUSTOM_FLAGS?=$(RUN_CUSTOM_FLAGS)
 # Default Docker run flags for shell access
-SHELL_FLAGS?=--rm -it -h $(APPNAME) --entrypoint="/bin/bash" $(SHELL_CUSTOM_FLAGS)
+SHELL_FLAGS?=--rm -it -h $(APPNAME) --entrypoint=$(SHELL) $(SHELL_CUSTOM_FLAGS)
 # Default Docker run command for shell access
-SHELL_CMD?=-c /bin/bash
+SHELL_CMD?=-c $(SHELL)
 
 # Volume base directory on the host
-VOLUME_HOST_BASE?=~/var
+VOLUME_HOST_PATH?=$(PWD)/var
 # Volume base directory into the container
-VOLUME_CONTAINER_BASE?=/var/opt
+VOLUME_CONTAINER_PATH?=/var/opt/$(APPNAME)
 # Volume flags
 VOLUME_FLAGS:=
 
@@ -64,13 +73,18 @@ help:
 Dockerfile.arm:
 ifeq ($(UNAME_M),armv7l)
 	echo "Building $(APPNAME) ARM dockerfile..."
-	sed -e 's|$(BASEIMAGE_)|$(BASEIMAGE)|' Dockerfile > Dockerfile.arm
+	sed -e 's|$(BASEIMAGE)|$(ARM_BASEIMAGE)|' Dockerfile > Dockerfile.arm
 endif
+
+## Build the network
+network:
+	echo "Building network: $(NETWORK)..."
+	$(DOCKER) network create $(NETWORK)
 
 ## Build the volume image
 volume:
-	echo "Building volumes: $(VOLUME_HOST_BASE)/$(APPNAME) -> $(VOLUME_CONTAINER_BASE)/$(APPNAME) ..."
-	$(DOCKER) run -v $(VOLUME_HOST_BASE)/$(APPNAME):$(VOLUME_CONTAINER_BASE)/$(APPNAME) --name $(APPNAME)_volumes $(VOLUME_IMAGE) true
+	echo "Building volumes: $(VOLUME_HOST_PATH) -> $(VOLUME_CONTAINER_PATH) ..."
+	$(DOCKER) run -v $(VOLUME_HOST_PATH):$(VOLUME_CONTAINER_PATH) --name $(APPNAME)_volumes $(VOLUME_IMAGE) true
 
 ## Mount volume
 mount:
@@ -122,4 +136,19 @@ shell:
 logs:
 	echo "Logs of the $(APPNAME) container..."
 	$(DOCKER) logs -f $(APPNAME)
+
+## Push docker image to the registry
+push:
+	echo "Pushing $(IMAGE) ..."
+	$(DOCKER) push $(IMAGE)
+
+## Pull docker image from the registry
+pull:
+	echo "Pulling $(IMAGE) ..."
+	$(DOCKER) pull $(IMAGE)
+
+## Tag docker image
+tag:
+	echo "Tagging $(IMAGE) as latest ..."
+	$(DOCKER) tag $(IMAGE) $(REGISTRY)$(USERNAME)/$(APPNAME):latest
 
