@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install -y curl dnsmasq psmisc supervisor
 ENV DOCKERGEN_URL https://github.com/jwilder/docker-gen/releases/download/0.3.6/docker-gen-linux-amd64-0.3.6.tar.gz
 RUN (cd /tmp && curl -L -o docker-gen.tgz $DOCKERGEN_URL && tar -C /usr/local/bin -xvzf docker-gen.tgz)
 
-ADD dnsmasq.tmpl /etc/dnsmasq.tmpl
+ADD hosts.dnsmasq.tmpl /etc/hosts.dnsmasq.tmpl
 
 ENV DOCKER_HOST unix:///var/run/docker.sock
 
