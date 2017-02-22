@@ -2,7 +2,7 @@
 
 ## Description
 
-Mumble Docker image based on debian.
+Mumble Docker image based on Debian.
 
 ## Usage
 
