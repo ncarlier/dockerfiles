@@ -1,14 +1,27 @@
 .SILENT :
 
+# App name
 APPNAME:=nodered
+
+# Define base image
+BASEIMAGE?=node:6
+
+# Installation env
 env?=staging
 
+# Env flags
 ENV_FLAGS?=--env-file="./etc/default/$(env).env"
-RUN_CUSTOM_FLAGS?=-p 1880:1880 $(ENV_FLAGS)
-BASEIMAGE?=node:5
-BASEIMAGE_?=node:5
 
-include $(PWD)/../common/_Makefile
+# Ports flags
+PORT?=1880
+PORTS_FLAGS?=-p $(PORT):1880
+
+# Define run flags
+RUN_CUSTOM_FLAGS?=$(PORTS_FLAGS) $(ENV_FLAGS)
+
+# Include common tasks
+ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+include $(ROOT_DIR)/../common/_Makefile
 
 ## Install as a service (needs root privileges)
 install: build

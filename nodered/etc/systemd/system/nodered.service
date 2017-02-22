@@ -1,7 +1,7 @@
 [Unit]
 Description=NodeRed service
 After=docker.service
-Requires=docker.service redis.service mqtt.service
+Requires=docker.service
 
 [Install]
 WantedBy=multi-user.target
@@ -10,8 +10,7 @@ WantedBy=multi-user.target
 ExecStartPre=-/usr/bin/docker kill %p
 ExecStartPre=-/usr/bin/docker rm %p
 ExecStart=/usr/bin/docker run --rm --name %p \
-    --link redis:redis \
-    --link mqtt:mqtt \
+    --network nunux-vlan \
     --volume=/var/opt/%p:/root/.node-red \
     --env-file /etc/environment \
     --env-file /etc/default/%p \
