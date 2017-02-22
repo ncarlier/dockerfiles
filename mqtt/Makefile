@@ -1,14 +1,23 @@
 .SILENT :
 .PHONY : pub sub
 
+# App name
 APPNAME:=mqtt
 
+# Tests
 topic?=foo/bar
 payload?=ping
 
-RUN_CUSTOM_FLAGS?=-p 1883:1883
+# Define port flags
+PORT?=1883
+PORTS_FLAGS?=-p $(PORT):1883
 
-include $(PWD)/../common/_Makefile
+# Define run flags
+RUN_CUSTOM_FLAGS?=$(PORTS_FLAGS)
+
+# Include common tasks
+ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+include $(ROOT_DIR)/../common/_Makefile
 
 ## Publish $payload to a $topic
 pub:
