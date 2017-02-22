@@ -12,7 +12,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y wget default-jdk
 
 # Install cwspark binaries
-ENV SPARK_URL http://d3kbcqa49mib13.cloudfront.net/spark-1.2.1-bin-hadoop2.4.tgz
+ENV SPARK_URL http://d3kbcqa49mib13.cloudfront.net/spark-2.1.0-bin-hadoop2.7.tgz
 ENV SPARK_HOME /opt/spark
 RUN (cd /tmp && wget $SPARK_URL -O pkg.tar.gz && tar zxf pkg.tar.gz && mv spark-* $SPARK_HOME && rm -rf /tmp/*)
 
