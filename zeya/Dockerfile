@@ -1,4 +1,4 @@
-# Redis docker image.
+# Zeya docker image.
 #
 # VERSION 0.0.1
 
@@ -15,4 +15,4 @@ RUN apt-get update && apt-get install -y zeya
 EXPOSE 8000
 
 ENTRYPOINT  ["zeya"]
-CMD ["--path=/var/lib/zeya", "--port=8000"]
+CMD ["--path=/var/opt/zeya", "--port=8000"]

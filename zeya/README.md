@@ -9,7 +9,8 @@ Zeya Docker image based on debian.
 Start the container:
 
 ```
-docker run -d -P --name zeya ncarlier/zeya
+export MUSIC_DIR=/data/music
+make start logs
 ```
 
 ## Build
