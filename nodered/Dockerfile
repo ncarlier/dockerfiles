@@ -24,8 +24,13 @@ RUN npm install -g --unsafe-perm node-red && \
         node-red-node-geofence \
         node-red-node-pushbullet
 
+COPY entrypoint.sh /entrypoint.sh
+COPY settings.tmpl /etc/node-red-settings.tmpl
+
+RUN chmod +x /entrypoint.sh
+
 # Ports
 EXPOSE 1880
 
-ENTRYPOINT ["node-red"]
+ENTRYPOINT ["/entrypoint.sh"]
 

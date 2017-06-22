@@ -8,8 +8,10 @@
 
 Start the container:
 
-```
-docker run -d -P --name nodered ncarlier/nodered
+```bash
+docker run -d -P --name nodered \
+  -e NODERED_PASSWORD=mysecret \
+  ncarlier/nodered
 ```
 
 Build the image with `make`.
