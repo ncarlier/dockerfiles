@@ -1,6 +1,0 @@
-#!/bin/sh
-
-APPNAME=elasticsearch
-IP=`sudo docker inspect --format '{{ .NetworkSettings.IPAddress }}' $APPNAME`
-
-curl -XGET "$IP:9200"
