@@ -1,17 +1,15 @@
-# MQTT docker image.
-#
-# VERSION 0.0.1
+#########################################
+# MQTT broker: Mosquitto
+#########################################
 
-FROM debian:jessie
+FROM alpine:latest
 
 MAINTAINER Nicolas Carlier <https://github.com/ncarlier>
 
-ENV DEBIAN_FRONTEND noninteractive
-
 # Install packages
-RUN apt-get update && apt-get install -y mosquitto mosquitto-clients && apt-get clean
+RUN apk add --update mosquitto mosquitto-clients
 
 # Expose MQTT port
 EXPOSE 1883
 
-ENTRYPOINT ["/usr/sbin/mosquitto"]
+ENTRYPOINT ["mosquitto"]

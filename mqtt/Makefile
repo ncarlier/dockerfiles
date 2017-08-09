@@ -4,6 +4,11 @@
 # App name
 APPNAME:=mqtt
 
+# Based image
+BASEIMAGE=alpine:latest
+# Used shell
+SHELL_BIN?=/bin/ash
+
 # Tests
 topic?=foo/bar
 payload?=ping
@@ -15,33 +20,29 @@ PORTS_FLAGS?=-p $(PORT):1883
 # Define run flags
 RUN_CUSTOM_FLAGS?=$(PORTS_FLAGS)
 
-# Include common tasks
-ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-include $(ROOT_DIR)/../common/_Makefile
+# Include common Make tasks
+root_dir:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+makefiles:=$(root_dir)/../makefiles
+include $(makefiles)/help.Makefile
+include $(makefiles)/docker.Makefile
 
 ## Publish $payload to a $topic
 pub:
-	echo "Running 'pub' client of container $(APPNAME) with IP=$(IP)..."
+	echo "Running 'pub' client of container $(APPNAME)..."
 	$(DOCKER) run --rm \
 		-it \
+		--network=container:$(APPNAME) \
 		--entrypoint="mosquitto_pub" \
 		$(IMAGE) \
-		-h $(IP) -t $(topic) -m $(payload)
+		-h $(APPNAME) -t $(topic) -m $(payload)
 
 ## Subscribe to a $topic
 sub:
-	echo "Running 'sub' client of container $(APPNAME) with IP=$(IP)..."
+	echo "Running 'sub' client of container $(APPNAME)..."
 	$(DOCKER) run --rm \
 		-it \
+		--network=container:$(APPNAME) \
 		--entrypoint="mosquitto_sub" \
 		$(IMAGE) \
-		-h $(IP) -t $(topic)
-
-## Install as a service (needs root privileges)
-install: build
-	echo "Install as a service..."
-	cp etc/systemd/system/$(APPNAME).service /etc/systemd/system/
-	systemctl daemon-reload
-	systemctl restart $(APPNAME)
-	$(MAKE) cleanup
+		-h $(APPNAME) -t $(topic)
 

@@ -5,7 +5,7 @@
 
 ## Description
 
-MQTT Docker image based on Debian.
+MQTT Docker image based on Alpine.
 
 The MQTT broker is mosquitto.
 
