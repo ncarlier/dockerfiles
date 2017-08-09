@@ -1,13 +1,16 @@
+#########################################
 # Node-RED server.
-#
-# VERSION 0.1
+#########################################
 
 FROM node:6
 
 MAINTAINER Nicolas Carlier <https://github.com/ncarlier>
 
-RUN npm install -g --unsafe-perm node-red && \
+# Install packages
+RUN mkdir /root/.node-red && \
+    npm install -g --unsafe-perm node-red && \
     npm install -g --unsafe-perm \
+        node-red-admin \
         node-red-dashboard \
         node-red-contrib-chatbot \
         node-red-node-ping \
@@ -24,13 +27,14 @@ RUN npm install -g --unsafe-perm node-red && \
         node-red-node-geofence \
         node-red-node-pushbullet
 
-COPY entrypoint.sh /entrypoint.sh
-COPY settings.tmpl /etc/node-red-settings.tmpl
+# Default password (admin)
+ENV NODERED_PASSWORD=$2a$08$tWUmm9CoMwTXnmt8xD7xv.YATs.0iS/aQWAlH4hTrjMVZxatrPTsi
 
-RUN chmod +x /entrypoint.sh
+# Install configuration file
+COPY settings.js /root/.node-red/settings.js
 
 # Ports
 EXPOSE 1880
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["node-red"]
 

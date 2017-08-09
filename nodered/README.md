@@ -6,11 +6,19 @@
 
 ## Usage
 
-Start the container:
+First you have to generate a secured password and store it inside the `.env`
+file.
+
+```bash
+$ make password
+$ echo 'NODERED_PASSWORD=xxx' > .env
+```
+
+Now, you can start the container:
 
 ```bash
 docker run -d -P --name nodered \
-  -e NODERED_PASSWORD=mysecret \
+  --env-file=".env" \
   ncarlier/nodered
 ```
 

@@ -1,16 +1,14 @@
 .SILENT :
+.PHONY : password
 
 # App name
 APPNAME:=nodered
 
 # Define base image
-BASEIMAGE?=node:6
-
-# Installation env
-env?=staging
+BASEIMAGE=node:6
 
 # Env flags
-ENV_FLAGS?=--env-file="./etc/default/$(env).env"
+ENV_FLAGS?=--env-file=".env"
 
 # Ports flags
 PORT?=1880
@@ -19,16 +17,19 @@ PORTS_FLAGS?=-p $(PORT):1880
 # Define run flags
 RUN_CUSTOM_FLAGS?=$(PORTS_FLAGS) $(ENV_FLAGS)
 
-# Include common tasks
-ROOT_DIR:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
-include $(ROOT_DIR)/../common/_Makefile
+# Include common Make tasks
+root_dir:=$(shell dirname $(realpath $(lastword $(MAKEFILE_LIST))))
+makefiles:=$(root_dir)/../makefiles
+include $(makefiles)/help.Makefile
+include $(makefiles)/docker.Makefile
 
-## Install as a service (needs root privileges)
-install: build
-	echo "Install as a service..."
-	cp etc/systemd/system/$(APPNAME).service /etc/systemd/system/
-	cp etc/default/$(env).env /etc/default/$(APPNAME)
-	systemctl daemon-reload
-	systemctl restart $(APPNAME)
-	$(MAKE) cleanup
+## Generate a new password
+password:
+	$(DOCKER) run --rm \
+		-it \
+		--entrypoint="node-red-admin" \
+		$(IMAGE) \
+		hash-pw
+	echo "Don't forget to add this password to the '.env' file:"
+	echo "echo 'NODERED_PASSWORD=xxx' > .env"
 
