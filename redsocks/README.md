@@ -27,7 +27,7 @@ Once edited you can replace this file into the container by mounting it:
 ```
 docker run --privileged=true --net=host \
   -v whitelist.txt:/etc/redsocks-whitelist.txt \
-  -d ncarlier/docker-redsocks 1.2.3.4 3128
+  -d ncarlier/redsocks 1.2.3.4 3128
 ```
 
 Use docker stop to halt the container. The iptables rules should be reversed. If not, you can execute this command:
