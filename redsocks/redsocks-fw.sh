@@ -17,7 +17,7 @@ fw_setup() {
   iptables -t nat -A REDSOCKS -p tcp -j REDIRECT --to-ports 12346
 
   # Finally we tell iptables to use the ‘REDSOCKS’ chain for all outgoing connection in the network interface ‘eth0′.
-  iptables -t nat -A PREROUTING -i docker0 -p tcp -j REDSOCKS
+  iptables -t nat -A PREROUTING -p tcp -j REDSOCKS
 }
 
 ##########################
