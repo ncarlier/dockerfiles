@@ -19,7 +19,9 @@ docker run --privileged=true --net=host -d ncarlier/redsocks 1.2.3.4 3128
 
 Replace the IP and the port by those of your proxy.
 
-The container will start redsocks and automatically configure iptable to forward **all** the TCP traffic through the proxy.
+The container will start redsocks and automatically configure iptable to forward **all** the TCP traffic of the `$DOCKER_NET` interface (`docker0` by default) through the proxy.
+
+You can forward all the TCP traffic regardless the interface by unset the `DOCKER_NET` variable: `-e DOCKER_NET`.
 
 If you want to add exception for an IP or a range of IP you can edit the whitelist file.
 Once edited you can replace this file into the container by mounting it:
